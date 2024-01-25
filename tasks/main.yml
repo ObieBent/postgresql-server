@@ -14,13 +14,13 @@
       paths: '../vars'
   tags: always
 
-- include: "config.yml"
+- include_tasks: "config.yml"
   tags: config
 
-- include: "sysctl.yml"
+- include_tasks: "sysctl.yml"
   tags: config
 
-- include: "{{ansible_os_family}}.yml"
+- include_tasks: "{{ansible_os_family}}.yml"
 
 - stat:
     path:   "{{ postgresql_data_dir }}"
@@ -122,13 +122,13 @@
     enabled: yes
     state:   started
 
-- include: databases.yml
+- include_tasks: databases.yml
 
 - name: main | Deploy postgresql backup scripts
   tags: script
   template:
     src:   "usr/local/sbin/{{ item }}.j2"
-    dest:  "/usr/local/sbin/{{ item }}"
+    dest:  "/usr/local/sbin/{{ item }}"
     owner: root
     group: root
     mode:  0755
@@ -193,6 +193,6 @@
 #  meta: flush_handlers
 #  when: postgresql_monitoring_enable == True
 #
-- include: monitoring.yml
+- include_tasks: monitoring.yml
   when: postgresql_monitoring_enable == True
 
